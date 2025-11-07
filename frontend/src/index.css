@@ -2,7 +2,53 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
-  background: linear-gradient(135deg, #0f172a, #312e81);
-  color: white;
+:root {
+  --bg-1: #0b1020;
+  --glass: rgba(255,255,255,0.06);
+  --accent: #6366f1;
 }
+
+html,body,#root { height: 100%; }
+body {
+  background: linear-gradient(180deg, #0b1220 0%, #081026 100%);
+  color: #e6edf3;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  margin: 0;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 1rem;
+}
+
+/* Glass card */
+.card {
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  border: 1px solid rgba(255,255,255,0.04);
+  backdrop-filter: blur(8px);
+  border-radius: 14px;
+  box-shadow: 0 10px 30px rgba(2,6,23,0.6);
+  transition: transform .28s cubic-bezier(.2,.8,.2,1), box-shadow .28s;
+  transform-style: preserve-3d;
+}
+
+/* hover lift */
+.card:hover {
+  transform: translateY(-8px) rotateX(2deg) rotateY(2deg);
+  box-shadow: 0 22px 50px rgba(2,6,23,0.8);
+}
+
+/* product image placeholder */
+.product-img {
+  height: 96px;
+  width: 96px;
+  border-radius: 12px;
+  display:flex;align-items:center;justify-content:center;font-weight:700;
+  background: linear-gradient(135deg, #7c3aed, #a78bfa);
+  color:white;
+}
+
+/* modal classes */
+.react-modal-overlay { position:fixed; inset:0; background:rgba(0,0,0,0.6); display:flex; align-items:center; justify-content:center; z-index:50; }
+.react-modal { width:100%; max-width:560px; padding:1.2rem; border-radius:12px; background:var(--glass); border:1px solid rgba(255,255,255,0.06); backdrop-filter: blur(8px); color: #e6edf3; }

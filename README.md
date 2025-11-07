@@ -1,77 +1,72 @@
-# Mock E-Com Cart — Vibe Commerce Screening
-Full-stack shopping cart demo.
+# 🛍️ Mock E-Com Cart — Vibe Commerce Screening
 
-## Tech stack
+A full-stack shopping cart demo built using React, Node.js, Express, and SQLite.
+
+---
+
+## 🧩 Tech Stack
 
 * **Backend:** Node.js, Express, SQLite
 * **Frontend:** React (Vite), Tailwind CSS, Framer Motion
 * **Auth:** bcrypt + JWT (optional; included)
-* **Database:** SQLite stored at `backend/db/database.sqlite`
+* **Database:** SQLite (`backend/db/database.sqlite`)
 
-## Folder structure
+---
+
+## 📂 Folder Structure
 
 ```
 ecom-cart/
-├─ backend/    # server, routes, DB init
-├─ frontend/   # React app
+├─ backend/    # Server, routes, DB initialization
+├─ frontend/   # React application
 └─ README.md
 ```
 
+---
 
-### 🖥 Backend
+## 🖥 Backend Setup
 
 ```bash
 cd backend
 npm install
-cp .env.example .env    # edit JWT_SECRET 
+cp .env.example .env    # update JWT_SECRET 
 npm run dev
-# runs on http://localhost:4000
+# Server runs on http://localhost:4000
 ```
 
-Test: [http://localhost:4000/api/products](http://localhost:4000/api/products)
+Test endpoint: [http://localhost:4000/api/products](http://localhost:4000/api/products)
 
-### 💻 Frontend
+---
+
+## 💻 Frontend Setup
 
 ```bash
 cd frontend
 npm install
 cp .env.example .env
 npm run dev
-# runs on http://localhost:5173
+# Runs on http://localhost:5173
 ```
 
 ---
 
 ## ✨ Features
 
-* Products listing (seeded on first run)
+* Fetch and display real products from FakeStore API
 * Add / update / remove items from cart
-* Cart total calculation
-* Mock checkout → receipt stored in DB
-* Register & login (JWT)
-* Responsive 3D styled UI with Framer Motion
-* SQLite persistence
+* Dynamic cart total calculation
+* Mock checkout with receipt stored in DB
+* Register & login with JWT authentication
+* Modern and responsive UI with Tailwind + Framer Motion
+* Persistent cart using SQLite
 
 ---
 
-## 📦 Deliverables
-
-* GitHub repo containing `/backend` and `/frontend`
-* `/assets/screenshots/` folder with:
-
-  * 1-products.png
-  * 2-cart.png
-  * 3-receipt.png
-* 1–2 minute demo video (Loom/YouTube unlisted)
-* README with setup instructions
-
----
-
-## ⚙️ Environment setup
+## ⚙️ Environment Setup
 
 ### Backend `.env.example`
 
-```
+```env
 PORT=4000
 DB_PATH=./db/database.sqlite
 JWT_SECRET=JWT_SECRET_KEY
@@ -79,21 +74,21 @@ JWT_SECRET=JWT_SECRET_KEY
 
 ### Frontend `.env.example`
 
-```
+```env
 VITE_API_BASE=http://localhost:4000/api
 ```
 
 ---
 
-## 🧩 Scripts
+## 📜 Scripts
 
-We Can Run both frontend and backend simultaneously:
+Run both frontend and backend simultaneously:
 
 ```bash
 npm i -D concurrently
 ```
 
-Then create a root `package.json`:
+Create a root `package.json` file:
 
 ```json
 {
@@ -103,7 +98,7 @@ Then create a root `package.json`:
 }
 ```
 
-Run everything with:
+Then run everything with:
 
 ```bash
 npm run dev
@@ -116,27 +111,42 @@ npm run dev
 | Method | Endpoint             | Description                    |
 | ------ | -------------------- | ------------------------------ |
 | GET    | `/api/products`      | Fetch all products             |
-| POST   | `/api/cart`          | Add item to cart               |
-| PUT    | `/api/cart/:id`      | Update quantity                |
-| DELETE | `/api/cart/:id`      | Remove cart item               |
 | GET    | `/api/cart`          | Get current cart & total       |
-| POST   | `/api/checkout`      | Mock checkout, returns receipt |
+| POST   | `/api/cart`          | Add item to cart               |
+| PUT    | `/api/cart/:id`      | Update item quantity           |
+| DELETE | `/api/cart/:id`      | Remove item from cart          |
+| POST   | `/api/checkout`      | Mock checkout (stores receipt) |
 | POST   | `/api/auth/register` | Register new user              |
 | POST   | `/api/auth/login`    | Login existing user            |
 
 ---
 
+## 📦 Deliverables
+
+* GitHub repository containing `/backend` and `/frontend`
+* `/assets/screenshots/` folder containing:
+
+  * 1-Login.png
+  * 2-Products.png
+  * 3-Cart.png
+  * 4-Receipt.png
+  * 5-Orders.png
+* 1–2 minute demo video (Loom / YouTube unlisted)
+* README with setup & usage instructions
+
+---
+
 ## 📸 Screenshots
 
-| Products                                       | Cart                                   | Receipt                                      |
-| ---------------------------------------------- | -------------------------------------- | -------------------------------------------- |
-| ![Products](assets/screenshots/1-products.png) | ![Cart](assets/screenshots/2-cart.png) | ![Receipt](assets/screenshots/3-receipt.png) |
+| Login                                    | Products                                       | Cart                                   | Receipt                                      | Orders                                     |
+| ---------------------------------------- | ---------------------------------------------- | -------------------------------------- | -------------------------------------------- | ------------------------------------------ |
+| ![Login](assets/screenshots/1-Login.png) | ![Products](assets/screenshots/2-Products.png) | ![Cart](assets/screenshots/3-Cart.png) | ![Receipt](assets/screenshots/4-Receipt.png) | ![Orders](assets/screenshots/5-Orders.png) |
 
 ---
 
 ## 🎥 Demo Video
 
-👉 [Unlisted Loom/YouTube Link Here](#)
+🎬 [Watch the demo on Loom](https://www.loom.com/share/5f1f40e423f145c9b2afe99ecc077f00)
 
 ---
 
@@ -144,4 +154,4 @@ npm run dev
 
 **Sayli Kulkarni**
 Full Stack Developer | MERN | JavaScript | React | Node.js
-
+📧 [saylikulkarni0645@gmail.com](mailto:saylikulkarni0645@gmail.com)

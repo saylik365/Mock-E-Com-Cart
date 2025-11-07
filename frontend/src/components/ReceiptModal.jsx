@@ -3,22 +3,15 @@ import Modal from 'react-modal';
 
 Modal.setAppElement('#root');
 
-export default function ReceiptModal({ receipt = null, onClose = () => {} }) {
+export default function ReceiptModal({ receipt=null, onClose=()=>{} }) {
   if (!receipt) return null;
 
   return (
-    <Modal
-      isOpen={!!receipt}
-      onRequestClose={onClose}
-      overlayClassName="react-modal-overlay"
-      className="react-modal"
-    >
-      <h2 className="text-xl font-semibold mb-2">Receipt</h2>
+    <Modal isOpen={!!receipt} onRequestClose={onClose} overlayClassName="react-modal-overlay" className="react-modal">
+      <h3 className="text-lg font-semibold mb-2">Receipt</h3>
       <div className="text-sm text-gray-300 mb-2">Receipt ID: <span className="text-white">{receipt.id}</span></div>
       <div className="text-sm text-gray-300 mb-2">Name: <span className="text-white">{receipt.name}</span></div>
       <div className="text-sm text-gray-300 mb-2">Email: <span className="text-white">{receipt.email}</span></div>
-      <div className="text-sm text-gray-300 mb-2">Time: <span className="text-white">{new Date(receipt.createdAt).toLocaleString()}</span></div>
-
       <div className="mt-3">
         <strong className="text-white">Items</strong>
         <ul className="mt-2 space-y-2">
@@ -30,7 +23,6 @@ export default function ReceiptModal({ receipt = null, onClose = () => {} }) {
           ))}
         </ul>
       </div>
-
       <div className="mt-4 flex justify-between items-center">
         <div className="text-white font-bold">Total: ₹{Number(receipt.total).toFixed(2)}</div>
         <div>

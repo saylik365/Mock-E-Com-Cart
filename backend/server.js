@@ -1,75 +1,72 @@
-// server.js
-require('dotenv').config();
-const express = require('express');
-const bodyParser = require('body-parser');
-const cors = require('cors');
-const path = require('path');
+require("dotenv").config();
+const express = require("express");
+const cors = require("cors");
+const sqlite3 = require("sqlite3").verbose();
+const { open } = require("sqlite");
 
-const { init } = require('./db-init');
+// Create Express app
+const app = express();
+app.use(cors());
+app.use(express.json());
 
-const PORT = process.env.PORT || 4000;
-const DB_PATH = process.env.DB_PATH || path.join(__dirname, 'db', 'database.sqlite');
-const JWT_SECRET = process.env.JWT_SECRET || 'dev-secret';
+// Import routes
+const productRoutes = require("./routes/products");
+const cartRoutes = require("./routes/cart");
+const checkoutRoutes = require("./routes/checkout");
+const authRoutes = require("./routes/auth"); 
+// const orderRoutes = require("./routes/orders"); 
+
+// Database setup
+let db;
 
 (async () => {
-  const db = await init(DB_PATH);
-  const app = express();
-  app.use(cors());
-  app.use(bodyParser.json());
-
-  // attach req.user if valid JWT present
-  const jwt = require('jsonwebtoken');
-  app.use((req, res, next) => {
-    const authHeader = req.headers.authorization || '';
-    const token = authHeader.replace('Bearer ', '');
-    if (token) {
-      try {
-        const payload = jwt.verify(token, JWT_SECRET);
-        req.user = payload;
-      } catch (e) {
-        // invalid token => ignore user
-      }
-    }
-    next();
+  db = await open({
+    filename: "./db/database.sqlite",
+    driver: sqlite3.Database,
   });
 
-  // mount routes
-  app.use('/api/auth', require('./routes/auth')(db, JWT_SECRET));
-  app.use('/api/products', require('./routes/products')(db));
-  app.use('/api/cart', require('./routes/cart')(db));
+  console.log("Connected to SQLite database");
 
-  // Checkout route
-  app.post('/api/checkout', async (req, res) => {
-    try {
-      const { name, email } = req.body;
-      if (!name || !email) return res.status(400).json({ ok:false, error:'Name & email required' });
+  // Create tables if missing
+  await db.exec(`
+    CREATE TABLE IF NOT EXISTS users (
+      id TEXT PRIMARY KEY,
+      name TEXT,
+      email TEXT UNIQUE,
+      password TEXT
+    );
 
-      const userId = req.user?.id || null;
-      const items = await db.all(`
-        SELECT c.id, c.productId, c.qty, p.name, p.price
-        FROM cart_items c
-        LEFT JOIN products p ON p.id = c.productId
-        WHERE c.userId IS ?
-      `, userId);
+    CREATE TABLE IF NOT EXISTS cart_items (
+      id TEXT PRIMARY KEY,
+      productId INTEGER,
+      name TEXT,
+      price REAL,
+      qty INTEGER,
+      image TEXT
+    );
 
-      if (!items.length) return res.status(400).json({ ok:false, error:'Cart empty' });
+    CREATE TABLE IF NOT EXISTS receipts (
+      id TEXT PRIMARY KEY,
+      userId TEXT,
+      total REAL,
+      payload TEXT,
+      createdAt TEXT
+    );
+  `);
 
-      const total = items.reduce((s, it) => s + (it.price || 0) * it.qty, 0);
-      const { v4: uuidv4 } = require('uuid');
-      const receiptId = uuidv4();
-      await db.run('INSERT INTO receipts (id,userId,total,createdAt,name,email,payload) VALUES (?,?,?,?,?,?,?)',
-        receiptId, userId, total, new Date().toISOString(), name, email, JSON.stringify(items));
-      await db.run('DELETE FROM cart_items WHERE userId IS ?', userId);
+  // Mount routes AFTER db is ready
+  app.use("/api/products", productRoutes(db));
+  app.use("/api/cart", cartRoutes(db));
+  app.use("/api/auth", authRoutes(db));
+  app.use("/api/checkout", checkoutRoutes(db));
+  // app.use("/api/orders", orderRoutes(db)); // coming next
 
-      res.json({ ok:true, receipt: { id: receiptId, items, total, createdAt: new Date().toISOString(), name, email } });
-    } catch (err) {
-      console.error('Checkout error:', err);
-      res.status(500).json({ ok:false, error:'Checkout failed' });
-    }
+  // Default route
+  app.get("/", (req, res) => {
+    res.send("Vibe Commerce Backend Running...");
   });
 
-  // health
-  app.get('/api/health', (req, res) => res.json({ ok:true, uptime: process.uptime() }));
-
+  // Start server
+  const PORT = process.env.PORT || 4000;
   app.listen(PORT, () => console.log(`Backend listening on http://localhost:${PORT}`));
 })();

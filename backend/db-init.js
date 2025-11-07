@@ -29,26 +29,27 @@ async function init(dbPath) {
   `);
 
   await db.exec(`
-    CREATE TABLE IF NOT EXISTS cart_items (
-      id TEXT PRIMARY KEY,
-      userId TEXT,
-      productId TEXT,
-      qty INTEGER,
-      createdAt TEXT
-    );
-  `);
+  CREATE TABLE IF NOT EXISTS cart_items (
+    id TEXT PRIMARY KEY,
+    name TEXT,
+    price REAL,
+    qty INTEGER
+  );
+`);
 
-  await db.exec(`
-    CREATE TABLE IF NOT EXISTS receipts (
-      id TEXT PRIMARY KEY,
-      userId TEXT,
-      total REAL,
-      createdAt TEXT,
-      name TEXT,
-      email TEXT,
-      payload TEXT
-    );
-  `);
+
+await db.exec(`
+  CREATE TABLE IF NOT EXISTS receipts (
+    id TEXT PRIMARY KEY,
+    userId TEXT,
+    total REAL,
+    name TEXT,
+    email TEXT,
+    payload TEXT,
+    createdAt TEXT
+  );
+`);
+
 
   // seed products if empty
   const row = await db.get('SELECT COUNT(1) as c FROM products');
