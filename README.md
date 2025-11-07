@@ -138,9 +138,15 @@ npm run dev
 
 ## 📸 Screenshots
 
-| Login                                    | Products                                       | Cart                                   | Receipt                                      | Orders                                     |
-| ---------------------------------------- | ---------------------------------------------- | -------------------------------------- | -------------------------------------------- | ------------------------------------------ |
-| ![Login](assets/screenshots/1-Login.png) | ![Products](assets/screenshots/2-Products.png) | ![Cart](assets/screenshots/3-Cart.png) | ![Receipt](assets/screenshots/4-Receipt.png) | ![Orders](assets/screenshots/5-Orders.png) |
+Here’s a quick look at the core screens of **Vibe Commerce** — from login to checkout!
+
+| 🧑‍💻 Login | 🛍️ Products | 🛒 Cart |
+|------------|--------------|----------|
+| ![Login](assets/screenshots/Login.png) | ![Products](assets/screenshots/Products.png) | ![Cart](assets/screenshots/Cart.png) |
+
+| 💳 Receipt | 📦 Orders |
+|-------------|------------|
+| ![Receipt](assets/screenshots/Receipt.png) | ![Orders](assets/screenshots/Orders.png) |
 
 ---
 
