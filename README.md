@@ -1,4 +1,4 @@
-# 🛍️ Mock E-Com Cart — Vibe Commerce Screening
+# 🛍️ Mock E-Com Cart — Vibe Commerce
 
 A full-stack shopping cart demo built using React, Node.js, Express, and SQLite.
 
